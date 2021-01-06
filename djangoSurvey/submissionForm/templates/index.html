@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit some data!</title>
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'css/index.css' %}"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <form action="/result" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="username" id="name" placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="dojo_location">Dojo Location</label>
+                <input type="text" name="dojo_location" id="dojo_location" placeholder="Dojo Location">
+            </div>
+            <div class="form-group">
+                <label for="favorite_language">Favorite Language</label>
+                <input type="text" name="favorite_language" id="favorite_language" placeholder="Favorite Language">
+            </div>
+            <div class="form-group">
+                <label for="comment">Comments</label>
+                <textarea class="form-control" rows="5" name="comment" id="comment" placeholder="Comments"></textarea>
+            </div>
+            <button type="submit" class="button">Submit Form</button>
+        </form>
+    </div>
+</body>
+</html>

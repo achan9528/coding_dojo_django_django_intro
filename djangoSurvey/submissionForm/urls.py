@@ -5,4 +5,6 @@ urlpatterns = [
     path('', views.index),
     # path('process', views.process),
     path('result', views.result),
+    path('process', views.process),
+    path('success',views.success),
 ]

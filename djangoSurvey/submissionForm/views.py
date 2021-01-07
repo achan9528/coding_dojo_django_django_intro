@@ -16,5 +16,10 @@ def result(request):
     # return redirect("/result")
     return render(request,"result.html",context)
 
-# def result(request):
-#     return render(request,"result.html")
+def process(request):
+    request.session['name'] = request.POST['username']
+    request.session['counter'] = 100
+    return redirect("/success")
+
+def success(request):
+    return render(request,"success.html")

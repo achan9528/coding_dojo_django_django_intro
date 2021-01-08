@@ -1,0 +1,39 @@
+{% comment %} Query: Create 3 new users {% endcomment %}
+
+user1 = User(first_name = "Alex", last_name = "Chan", email_address = "test@test.com", age = 26)
+user2 = User(first_name = "Chris", last_name = "Chan", email_address = "test@test.com", age = 27)
+user3 = User(first_name = "Justin", last_name = "Chan", email_address = "test@test.com", age = 28)
+
+user1.save()
+user2.save()
+user3.save()
+
+{% comment %} Query: Retrieve all the users {% endcomment %}
+
+all_users = User.objects.all()
+all_users
+
+{% comment %} Query: Retrieve the last user {% endcomment %}
+
+last_user = User.objects.last()
+last_user
+
+{% comment %} Query: Retrieve the first user {% endcomment %}
+
+first_user = User.objects.first()
+first_user
+
+{% comment %} Query: Change the user with id=3 so their last name is Pancakes. {% endcomment %}
+
+temp = User.objects.get(id=3)
+temp.last_name = "Pancakes"
+temp.save()
+
+{% comment %} Query: Delete the user with id=2 from the database {% endcomment %}
+temp = User.objects.get(id=3)
+temp.delete()
+
+{% comment %} Query: Get all the users, sorted by their first name {% endcomment %}
+temp = User.objects.order_by("first_name")
+
+{% comment %} BONUS Query: Get all the users, sorted by their first name in descending order  {% endcomment %}

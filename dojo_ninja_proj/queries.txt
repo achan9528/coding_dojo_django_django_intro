@@ -1,0 +1,51 @@
+{% comment %} Query: Create 3 new dojos {% endcomment %}
+dojo1 = Dojo(name="Dojo1", city="City1",state="State1")
+dojo2 = Dojo(name="Dojo2", city="City2",state="State2")
+dojo3 = Dojo(name="Dojo3", city="City3",state="State3")
+
+dojo1.save()
+dojo2.save()
+dojo3.save()
+
+Dojo.objects.all()
+
+{% comment %} Query: Delete the 3 dojos you just created {% endcomment %}
+dojo1.delete()
+dojo2.delete()
+dojo3.delete()
+
+{% comment %} Query: Create 3 more dojos {% endcomment %}
+dojo1 = Dojo.objects.create(name="Dojo1", city="City1",state="State1")
+dojo2 = Dojo.objects.create(name="Dojo2", city="City2",state="State2")
+dojo3 = Dojo.objects.create(name="Dojo3", city="City3",state="State3")
+
+{% comment %} Query: Create 3 ninjas that belong to the first dojo {% endcomment %}
+ninja1 = Ninja.objects.create(first_name="Ninja1", last_name = "Ninja1", dojo=dojo1)
+ninja2 = Ninja.objects.create(first_name="Ninja2", last_name = "Ninja2", dojo=dojo1)
+ninja3 = Ninja.objects.create(first_name="Ninja3", last_name = "Ninja3", dojo=dojo1)
+
+{% comment %} Query: Create 3 ninjas that belong to the second dojo {% endcomment %}
+ninja4 = Ninja.objects.create(first_name="Ninja4", last_name = "Ninja4", dojo=dojo2)
+ninja5 = Ninja.objects.create(first_name="Ninja5", last_name = "Ninja5", dojo=dojo2)
+ninja6 = Ninja.objects.create(first_name="Ninja6", last_name = "Ninja6", dojo=dojo2)
+
+{% comment %} Query: Create 3 ninjas that belong to the third dojo {% endcomment %}
+ninja7 = Ninja.objects.create(first_name="Ninja7", last_name = "Ninja7", dojo=dojo3)
+ninja8 = Ninja.objects.create(first_name="Ninja8", last_name = "Ninja8", dojo=dojo3)
+ninja9 = Ninja.objects.create(first_name="Ninja9", last_name = "Ninja9", dojo=dojo3)
+
+{% comment %} Query: Retrieve all the ninjas from the first dojo {% endcomment %}
+dojo1.ninjas.all()
+
+{% comment %} Query: Retrieve all the ninjas from the last dojo {% endcomment %}
+Dojo.objects.last().ninjas.all()
+
+{% comment %} Query: Retrieve the last ninja's dojo {% endcomment %}
+Ninja.objects.last().dojo
+
+{% comment %} Add a new text field called "desc" to your Dojo class {% endcomment %}
+
+{% comment %} Create and run the migration files to update the table in your database. If needed, provide a default value of "old dojo" {% endcomment %}
+
+{% comment %} Query: Create a new dojo {% endcomment %}
+dojo4 = Dojo.objects.create(name="Dojo4", city="City4",state="State4")

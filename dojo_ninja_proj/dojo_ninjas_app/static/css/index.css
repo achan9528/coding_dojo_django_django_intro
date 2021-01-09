@@ -1,0 +1,17 @@
+form{
+    display:inline-block;
+    vertical-align: top;
+}
+
+.ul_holder{
+    padding: 0px;
+    list-style: none;
+    width: 100%;
+}
+
+.ul_holder li{
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+    margin: auto;
+}

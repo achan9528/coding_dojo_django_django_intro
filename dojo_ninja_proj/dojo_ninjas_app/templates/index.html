@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <title>Dojo and Ninjas!</title>
+</head>
+<body>
+    <div class="container">
+        <ul class="ul_holder">
+            <li>
+                <form action="/addDojo" method="post" name="addDojoForm">
+                {% csrf_token %}
+                <h2>Add a Dojo</h2>
+                <label for="addDojoName">Name</label>
+                <input type="text" class="form-control" id="addDojoName" name="addDojoName">
+                <label for="addDojoCity">City</label>
+                <input type="text" class="form-control" id="addDojoCity" name="addDojoCity">
+                <label for="addDojoState">State</label>
+                <input type="text" class="form-control" id="addDojoState" name="addDojoState">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </li>
+            <li>
+                <form action="/addNinja" method="post" name="addNinjaForm">
+                    {% csrf_token %}
+                    <h2>Add a Ninja</h2>
+                    <label for="addNinjaFirstName">Name</label>
+                    <input type="text" class="form-control" id="addNinjaFirstName" name="addNinjaFirstName">
+                    <label for="addNinjaLastName">City</label>
+                    <input type="text" class="form-control" id="addNinjaLastName" name="addNinjaLastName">
+                    <label for="addNinjaDojo">State</label>
+                    <select class="form-control" id="selectDojo" name="selectDojo">    
+                        {% for option in dojos%}
+                            <option>{{option.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </li>
+        </ul>
+        <ul>
+            <h2>All The Dojos</h2>
+            {% for dojo in dojos %}
+                <li>
+                    <ul>
+                        Ninjas at the {{dojo.name}} dojo
+                        {% for ninja in dojo.ninjas.all %}
+                            <li>{{ninja.first_name}} {{ninja.last_name}}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

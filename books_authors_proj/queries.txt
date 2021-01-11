@@ -1,0 +1,78 @@
+{% comment %} Query: Create 5 books with the following names: C Sharp, Java, Python, PHP, Ruby {% endcomment %}
+
+Book.objects.create(title="C Sharp", desc="C Sharp")
+Book.objects.create(title="Java", desc="Java")
+Book.objects.create(title="Python", desc="Python")
+Book.objects.create(title="PHP", desc="PHP")
+Book.objects.create(title="Ruby", desc="Ruby")
+
+{% comment %} Query: Create 5 different authors: Jane Austen, Emily Dickinson, Fyodor Dostoevsky, William Shakespeare, Lau Tzu {% endcomment %}
+
+Author.objects.create(first_name="Jane", last_name="Austen")
+Author.objects.create(first_name="Emily", last_name="Dickinson")
+Author.objects.create(first_name="Fydoor", last_name="Dostoevsky")
+Author.objects.create(first_name="William", last_name="Shakespeare")
+Author.objects.create(first_name="Lau", last_name="Tzu")
+
+{% comment %} Add a new text field in the authors table called 'notes'. {% endcomment %}
+
+make changes to models.py
+
+{% comment %} Create and run the migration files to update the table in your database. {% endcomment %}
+
+python manage.py makemigrations
+python manage.py migrate
+
+{% comment %} Query: Change the name of the C Sharp book to C# {% endcomment %}
+
+Book.objects.get(title="C Sharp").title="C#"
+
+{% comment %} Query: Change the first name of the 4th author to Bill {% endcomment %}
+
+Author.objects.get(id=4).first_name = "Bill"
+
+{% comment %} Query: Assign the first author to the first 2 books {% endcomment %}
+
+Author.objects.get(id=1).books.add(Book.objects.get(id=2))
+Author.objects.get(id=1).books.add(Book.objects.get(id=3))
+
+{% comment %} Query: Assign the second author to the first 3 books {% endcomment %}
+
+Book.objects.get(id=2).authors.add(Author.objects.get(id=2))
+Book.objects.get(id=3).authors.add(Author.objects.get(id=2))
+Book.objects.get(id=4).authors.add(Author.objects.get(id=2))
+
+{% comment %} Query: Assign the third author to the first 4 books {% endcomment %}
+
+Book.objects.get(id=2).authors.add(Author.objects.get(id=3))
+Book.objects.get(id=3).authors.add(Author.objects.get(id=3))
+Book.objects.get(id=4).authors.add(Author.objects.get(id=3))
+Book.objects.get(id=5).authors.add(Author.objects.get(id=3))
+
+{% comment %} Query: Assign the fourth author to the first 5 books (or in other words, all the books) {% endcomment %}
+
+Book.objects.get(id=2).authors.add(Author.objects.get(id=4))
+Book.objects.get(id=3).authors.add(Author.objects.get(id=4))
+Book.objects.get(id=4).authors.add(Author.objects.get(id=4))
+Book.objects.get(id=5).authors.add(Author.objects.get(id=4))
+Book.objects.get(id=6).authors.add(Author.objects.get(id=4))
+
+{% comment %} Query: Retrieve all the authors for the 3rd book {% endcomment %}
+
+Book.objects.get(id=4).authors.all()
+
+{% comment %} Query: Remove the first author of the 3rd book {% endcomment %}
+
+Book.objects.get(id=4).authors.remove(Book.objects.get(id=4).authors.first())
+
+{% comment %} Query: Add the 5th author as one of the authors of the 2nd book {% endcomment %}
+
+Book.objects.get(id=3).authors.add(Author.objects.get(id=5))
+
+{% comment %} Query: Find all the books that the 3rd author is part of {% endcomment %}
+
+Author.objects.get(id=3).books.all()
+
+{% comment %} Query: Find all the authors that contributed to the 5th book {% endcomment %}
+
+Book.objects.get(id=6).authors.all()

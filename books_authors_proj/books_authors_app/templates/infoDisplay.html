@@ -9,8 +9,12 @@
     <div class="container">
         <h1>{{header}}</h1>
         <ul>
-            <li>{{field0}}:</li>
-            <li>{{field1}}:</li>
+            <li>{{field0}}: {{requestedObject.id}}</li>
+            {% if field2 == "Books" %}
+            <li>{{field1}}: {{requestedObject.notes}}</li>
+            {% else %}
+            <li>{{field1}}: {{requestedObject.desc}}</li>
+            {% endif %}
             <li>
                 {{field2}}:
                 <ul>
@@ -22,11 +26,12 @@
         </ul>
         <form action="{{formAction}}" method="POST">
             {% csrf_token %}
-            <select>
+            <select name = "selection">
                 {% for opt in options %}
                     <option>{{opt}}</option>
                 {% endfor %}
             </select>
+            <input type="hidden" name="topic" value="{{header}}">
             <button type="submit">Add</button>
         </form>
     </div>

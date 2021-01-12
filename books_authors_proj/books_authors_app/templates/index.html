@@ -19,10 +19,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Action</th>
-                    <th>Delete</th>
+                    {% for tableHeader in tableHeaders %}
+                        <th>{{tableHeader}}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
@@ -30,11 +29,12 @@
                     <tr>
                         <td>{{iter.id}}</td>
                         {% if subject == "books" %}
-                            <td>{{book.title}}</td>
+                            <td>{{iter.title}}</td>
                             <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
                             <td><a href="/{{subject}}/{{iter.id}}/delete">Delete</a></td>
                         {% else %}
-                            <td>{{iter.name}}</td>
+                            <td>{{iter.first_name}}</td>
+                            <td>{{iter.last_name}}</td>
                             <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
                             <td><a href="/{{subject}}/{{iter.id}}/delete">Delete</a></td>
                         {% endif %}

@@ -4,22 +4,26 @@ from .models import Book, Author
 # Create your views here.
 def index(request):
     labels = zip(["Title", "Description"],["addTitle", "addDescription"])
+    tableHeaders = ["ID", "Title", "Action", "Delete"]
     context = {
         "subject": "books",
         "formHeader": "Add a Book",
         "labels": labels,
         "iterable": Book.objects.all(),
+        "tableHeaders": tableHeaders,
     }
     
     return render(request,"index.html",context)
 
 def authors(request):
     labels=zip(["First Name", "Last Name", "Notes"], ["addFirstName","addLastName","addNotes"])
+    tableHeaders = ["ID", "First Name", "Last Name", "Action", "Delete"]
     context = {
         "subject": "authors",
         "formHeader": "Add an Author",
         "labels": labels,
         "iterable": Author.objects.all(),
+        "tableHeaders": tableHeaders,
     }
     
     return render(request,"index.html",context)
@@ -40,13 +44,14 @@ def bookInformation(request, bookId):
         iterable2.append("No authors left to add!")
 
     context = {
-        "field0": requestedBook.id,
+        "field0": "ID",
         "field1": "Description",
         "field2": "Authors",
         "header": requestedBook.title,
         "iterable": iterable,
         "options": iterable2,
         "formAction": "/existingAuthorsAdd",
+        "requestedObject": requestedBook,
     }
 
     return render(request, "infoDisplay.html", context)
@@ -67,13 +72,14 @@ def authorInformation(request, authorId):
         iterable2.append("No books left to add!")
 
     context = {
-        "field0": requestedAuthor.id,
+        "field0": "ID",
         "field1": "Notes",
         "field2": "Books",
         "header": f"{requestedAuthor.first_name} {requestedAuthor.last_name}",
         "iterable": iterable,
         "options": iterable2,
         "formAction": "/existingBooksAdd",
+        "requestedObject": requestedAuthor,
     }
 
     return render(request, "infoDisplay.html", context)
@@ -92,10 +98,21 @@ def authorsAdd(request):
     return redirect("/")
 
 def existingBooksAdd(request):
-    pass
+    name = request.POST['topic'].split()
+    currentAuthor = Author.objects.get(first_name = name[0], last_name = name[1])
+    bookToAdd = Book.objects.get(title=request.POST['selection'])
+    currentAuthor.books.add(bookToAdd)
+
+    return redirect('/authors')
 
 def existingAuthorsAdd(request):
-    pass
+    title = request.POST['topic']
+    currentBook = Book.objects.get(title=title)
+    name = request.POST['selection'].split()
+    authorToAdd = Author.objects.get(first_name=name[0],last_name=name[1])
+    currentBook.authors.add(authorToAdd)
+
+    return redirect('/')
 
 def bookDelete(request, bookId):
     Book.objects.get(id=bookId).delete()

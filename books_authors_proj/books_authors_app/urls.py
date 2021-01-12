@@ -11,6 +11,6 @@ urlpatterns = [
     path('authors/<int:authorId>/delete',views.authorDelete),
     path('booksAdd',views.booksAdd),
     path('authorsAdd',views.authorsAdd),
-    path('existingBooksAdd', views.authorsAdd),
-    path('existinAuthorsAdd', views.authorsAdd),
+    path('existingBooksAdd', views.existingBooksAdd),
+    path('existingAuthorsAdd', views.existingAuthorsAdd),
 ]

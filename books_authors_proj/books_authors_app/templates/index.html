@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books and Authors!</title>
+</head>
+<body>
+    <div class="container">
+        <form action="/{{subject}}Add" method="post" name="add{{subject}}">
+            <h2>{{formHeader}}</h2>
+            {% csrf_token %}
+            {% for label, name in labels %}
+                <label for="{{name}}">{{label}}</label>
+                <input type="text" name="{{name}}" id="{{name}}">
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for iter in iterable %}
+                    <tr>
+                        <td>{{iter.id}}</td>
+                        {% if subject == "books" %}
+                            <td>{{book.title}}</td>
+                            <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
+                        {% else %}
+                            <td>{{iter.name}}</td>
+                            <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

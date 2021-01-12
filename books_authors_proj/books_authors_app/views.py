@@ -96,3 +96,11 @@ def existingBooksAdd(request):
 
 def existingAuthorsAdd(request):
     pass
+
+def bookDelete(request, bookId):
+    Book.objects.get(id=bookId).delete()
+    return redirect('/')
+
+def authorDelete(request, authorId):
+    Author.objects.get(id=authorId).delete()
+    return redirect('/authors')

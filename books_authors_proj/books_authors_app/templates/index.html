@@ -22,6 +22,7 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Action</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,9 +32,11 @@
                         {% if subject == "books" %}
                             <td>{{book.title}}</td>
                             <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
+                            <td><a href="/{{subject}}/{{iter.id}}/delete">Delete</a></td>
                         {% else %}
                             <td>{{iter.name}}</td>
                             <td><a href="/{{subject}}/{{iter.id}}">View</a></td>
+                            <td><a href="/{{subject}}/{{iter.id}}/delete">Delete</a></td>
                         {% endif %}
                     </tr>
                 {% endfor %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Show, Network
 
 # Create your views here.
@@ -40,16 +41,23 @@ def addShow(request):
     releaseDate = request.POST['releaseDate']
     desc = request.POST['desc']
     
-    newShow = Show.objects.create(title=title, releaseDate= releaseDate, desc=desc)
+    errors = Show.objects.validator(request.POST)
 
-    if Network.objects.filter(name=network).exists():
-        networkObj = Network.objects.get(name=network)
-        newShow.networks.add(networkObj)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/shows/new')
     else:
-        networkObj = Network.objects.create(name=network)
-        newShow.networks.add(networkObj)
+        newShow = Show.objects.create(title=title, releaseDate= releaseDate, desc=desc)
 
-    return redirect(f"/shows/{newShow.id}")
+        if Network.objects.filter(name=network).exists():
+            networkObj = Network.objects.get(name=network)
+            newShow.networks.add(networkObj)
+        else:
+            networkObj = Network.objects.create(name=network)
+            newShow.networks.add(networkObj)
+
+        return redirect(f"/shows/{newShow.id}")
 
 def editShowForm(request, showID):
 
@@ -76,15 +84,22 @@ def editShow(request, showID):
     releaseDate = request.POST['releaseDate']
     desc = request.POST['desc']
 
-    showToUpdate = Show.objects.get(id=showID)
-    showToUpdate.title = title
-    showToUpdate.network = network
-    showToUpdate.releaseDate = releaseDate
-    showToUpdate.desc = desc
+    errors = Show.objects.validator(request.POST)
 
-    showToUpdate.save()
+    if len(errors) > 0:
+        for key,value in errors.items():
+            messages.error(request, value)
+        return redirect(f"/shows/{showID}/edit")
+    else:
+        showToUpdate = Show.objects.get(id=showID)
+        showToUpdate.title = title
+        showToUpdate.network = network
+        showToUpdate.releaseDate = releaseDate
+        showToUpdate.desc = desc
 
-    return redirect(f"/shows/{showID}")
+        showToUpdate.save()
+
+        return redirect(f"/shows/{showID}")
 
 def destroy(request, showID):
     Show.objects.get(id=showID).delete()

@@ -10,6 +10,13 @@
     <div class="container">
         <h1>{{header}}</h1>
         <a href="/">Go Back</a>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li> {% if messages.tags %} class = "{{ message.tags }}" {% endif %} {{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form action="{{formAction}}" method="POST">
 
             {% csrf_token %}

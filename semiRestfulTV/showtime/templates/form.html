@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>ShowTime!</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{header}}</h1>
+        <a href="/">Go Back</a>
+        <form action="{{formAction}}" method="POST">
+
+            {% csrf_token %}
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="{{value_title}}">
+
+            <label for="network">Network</label>
+            <input type="text" name="network" id="network" value="{{value_network}}">
+
+            <label for="releaseDate">Release Date</label>
+            <input type="date" name="releaseDate" id="releaseDate" value={{value_releaseDate}}>
+
+            <label for="desc">Description</label>
+            <input type="text" name="desc" id="desc" value="{{value_desc}}">
+
+            <button type="submit">{{buttonText}}</button>
+        </form>
+    </div>
+</body>
+</html>

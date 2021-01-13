@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShowTime!</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{show.title}}</h1>
+        <a href='/'>Go Back</a>
+        <ul>
+            <li>Title: {{show.title}}</li>
+            <li>Networks: 
+            {% for network in show.networks.all %}
+            {{network.name}}<br>
+            {% endfor %}
+            </li>
+            <li>Release Date: {{show.releaseDate}}</li>
+            <li>Description: {{show.desc}}</li>
+        </ul>
+        <p>Last Updated: {{show.updated_at}}</p>
+        <a href="/shows/{{show.id}}/edit">Edit</a><p> | </p><a href="/shows/{{show.id}}/destroy">Delete</a>
+    </div>
+</body>
+</html>

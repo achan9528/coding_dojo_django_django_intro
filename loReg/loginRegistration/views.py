@@ -8,7 +8,7 @@ def index(request):
     return render(request, "login.html")
 
 def registerUser(request):
-    errors = User.objects.validator(request.POST)
+    errors = User.objects.registrationValidator(request.POST)
 
     if len(errors) > 0:
         for key,value in errors.items():
@@ -38,9 +38,11 @@ def registerUser(request):
 
 def errorPage(request, errorMessage):
     if errorMessage == "userExists":
-        header = "Error - email already exists in system. Try another email!",
+        header = "Error - email already exists in system. Try another email!"
     if errorMessage == "incorrectPW":
-        header = "Error - Password is incorrect. Try again!",
+        header = "Error - Password is incorrect. Try again!"
+    if errorMessage == "denied":
+        header = "Error - You are trying to reach the login page without logging in. Please log in first!"
     context = {
             "header": header,
         }
@@ -49,6 +51,11 @@ def errorPage(request, errorMessage):
 
 def login(request):
     users = User.objects.filter(email=request.POST['email'])
+    errors = User.objects.loginValidator(request.POST)
+    if len(errors) > 0:
+        for key,value in errors.items():
+            messages.error(request,value)
+        return redirect('/')
     if users:
         logged_user = users[0]
         if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
@@ -59,9 +66,11 @@ def login(request):
             return redirect("/users/login/error/incorrectPW")
 
 def success(request):
+    if "firstName" not in request.session:
+        return redirect('/users/login/error/denied')
     context = {
         "header": f"Success! Welcome {request.session['firstName']}!",
-        "header2": "Successfully registered (or logged in!)"
+        "header2": "Successfully registered (or logged in!)",
     }
 
     return render(request, "portal.html", context)

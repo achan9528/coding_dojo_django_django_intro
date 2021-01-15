@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Login and Registration</title>
+</head>
+<body>
+    <div class="container" style="width: 970px;">
+        <h1>Coding Dojo Wall</h1>
+        <h2>Welcome {{ userFirstName }}!</h2>
+        <a href={% url 'dojoWall:logout' %}>Logout</a>
+        {% if errors %}
+            <h1>{{errors}}</h1>
+        {% endif %}
+        <form action= {% url 'dojoWall:postMessage' %} method="POST" class="d-flex flex-column">
+            {% csrf_token %}
+            <h3>Post a message</h3>
+            <input type="text" name="messageText">
+            <button class = "btn btn-primary" type="submit">Post A Message</button>
+        </form>
+        <ul>
+            {% for userMessage in userMessages %}
+                <li>
+                    <h4>{{ userFirstName }} {{ userLastName}} - {{ userMessage.created_at}}<h4>
+                    <p class="text-wrap" style="word-wrap: break-word;">{{ userMessage.message }}</p>
+                    <ul>
+                        {% for userComment in userMessage.comments.all %}
+                        <li>
+                            <h4>{{ userComment.user.firstName }} {{ userComment.user.lastName}} - {{ userComment.created_at}}<h4>
+                            <p class="text-wrap" style="word-wrap: break-word;">{{ userComment.comment }}</p>
+                        </li>
+                        {% endfor %}
+                        <li>
+                            <form action={% url 'dojoWall:postComment' messageID=userMessage.id %} method="POST">
+                                {% csrf_token %}
+                                <h3>Post a comment</h3>
+                                <input type="text" name="comment" id="comment">
+                                <button type="submit">Post a comment</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+            
+        </ul>
+    </div>
+</body>
+</html>

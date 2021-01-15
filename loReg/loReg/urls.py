@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('loginRegistration.urls')),
+    path('', include('dojoWall.urls')),
 ]

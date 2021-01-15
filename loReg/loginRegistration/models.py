@@ -36,5 +36,9 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
+    # from dojoWall.models
+    # messages = a list of message objects that the user creates
+    # comments = a list of comment objects that the user creates
+
     def __str__(self):
-        return f"First Name: {self.firstName}, Last Name: {self.lastName}, Email: {self.email}, PW: {self.pw_hash}"
+        return f"First Name: {self.firstName}, Last Name: {self.lastName}, Email: {self.email}, PW: {self.password}"

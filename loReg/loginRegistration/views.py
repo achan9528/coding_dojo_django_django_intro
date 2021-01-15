@@ -61,6 +61,7 @@ def login(request):
         if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
             request.session['firstName'] = logged_user.firstName
             request.session['lastName'] = logged_user.lastName
+            request.session['userID'] = logged_user.id
             return redirect("/success")
         else:
             return redirect("/users/login/error/incorrectPW")
@@ -72,8 +73,10 @@ def success(request):
         "header": f"Success! Welcome {request.session['firstName']}!",
         "header2": "Successfully registered (or logged in!)",
     }
-
-    return render(request, "portal.html", context)
+    
+    # return render(request, "portal.html", context)
+    return redirect('dojoWall:wall')
+    
 
 def logout(request):
     request.session.clear()

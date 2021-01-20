@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Favorite Books!</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row border-bottom">
+            <h1 class="col-sm">Welcome, {{user.firstName}}!</h1>
+            <a href={% url 'onlineLibrary:logout' %} class="col-sm-1">Log Out</a>
+        </div>
+        <div class="row">
+            <div class="col-4">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>
+                            {{message}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form action = {% url 'onlineLibrary:addFavoriteBook' %} method="POST">
+                {% csrf_token %}
+                <h2>Add A Favorite Book</h2>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <input class="form-control" name="desc">
+                </div>
+                <button type="submit">Add</button>
+            </form>
+            </div>
+            <div class="col">
+                <h2>All Books</h2>
+                <ul>
+                    {% for book in books %}
+                    <li>
+                        <a href={% url 'onlineLibrary:bookDetails' bookID=book.id %}>{{book.title}}</a>
+                        <p>(added by {{book.uploadedBy.firstName}} {{book.uploadedBy.lastName}})</p>
+                        {% if book in user.books_liked.all %}
+                            <p>(This is one of your favorites)</p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

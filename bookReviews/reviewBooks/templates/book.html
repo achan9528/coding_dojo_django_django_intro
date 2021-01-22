@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Book Reviews!</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 class="col-8">{{book.title}}!</h1>
+            <a class="col-2" href={% url 'reviewBooks:portal' %}>Home</a>
+            <a class="col-2" href={% url 'reviewBooks:logout' %}>Log Out</a>
+        </div>
+        <div class="row">
+            <h2>Author: {{book.author.name}}</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Reviews<h3>
+                <ul class="overflow">
+                    {% for review in book.reviews.all %}
+                        <ul>
+                            <li>Rating: {{review.stars}} </li>
+                            <li>
+                                <a href={% url 'reviewBooks:userDescription' userID=review.creator.id %}>{{review.creator.name}}</a>
+                                says: {{review.comments}}
+                            </li>
+                            <li>Posted on {{review.createdAt}}</li>
+                            {% if review.creator.id == user.id %}
+                            <a href={% url 'reviewBooks:deleteReview' bookID=review.book.id reviewID=review.id %}>Delete Review</a>
+                            {% endif %}
+                        </ul>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col">
+                <form action={% url 'reviewBooks:addReview' bookID=book.id %} method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="comments">Add a Review</label>
+                        <input class="form-control overflow-auto" type="text" name="comments">
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating:
+                        <select class="custom-select" name="rating">
+                            <option selected>Choose Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        Stars
+                        </label>
+                    </div>
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

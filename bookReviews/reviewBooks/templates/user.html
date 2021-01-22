@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Book Reviews!</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-end">
+            <a class="col-1" href={% url 'reviewBooks:portal' %}>Home</a>
+            <a class="col-3" href={% url 'reviewBooks:addBookReview' %}>Add a New Book and Review</a>
+            <a class="col-1" href={% url 'reviewBooks:logout' %}>Log Out</a>
+        </div>
+        <div class="row">
+            <ul>
+                <li><h2>User Alias: {{ user.alias }}</h2></li>
+                <li><h2>Name: {{ user.name }}</h2></li>
+                <li><h2>Email: {{ user.email }}</h2></li>
+                <li><h2>Total Reviews: {{ user.booksReviewed.count }}</h2></li>
+            <ul>
+        </div>
+        <div class="row">
+            <h2>Posted Reviews on the following books:<h2>
+            <ul>
+                {% for review in user.booksReviewed.all %}
+                    <li><a href={% url 'reviewBooks:bookDescription' bookID=review.book.id %}>{{review.book.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
